@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { moveClockwise } from '../state/action-creators'
 import { useDispatch } from 'react-redux'
@@ -11,19 +11,26 @@ const aC = {
 
 export function Wheel(props) {
   const dispatch = useDispatch()
-  const [petals, setActivePetal] = useState(['','','','','',''])
-  function handleClick() {
-    dispatch({type: 'MOVE_CLOCKWISE'});
-    console.log(petals)
+  function handleClick(e) {
+    if(e.target.id === 'clockwiseBtn') {
+    dispatch({type: 'MOVE_CLOCKWISE'})
+    } else if (e.target.id === 'counterClockwiseBtn') {
+      dispatch({type: 'MOVE_COUNTERCLOCKWISE'})
+    };
   }
   return (
     <div id="wrapper">
       <div id="wheel">
-        {petals.map((item, idx) => { return <div className={item === 'B' ? "cog active" : "cog"} style={{ "--i": idx }}>{item === 'B' ? 'B' : ''}</div>})}
+        <div className={props.wheel === 0 ? "cog active" : "cog"} style={{ "--i": 0 }}>{props.wheel === 0 ? 'B' : ''}</div>
+        <div className={props.wheel === 1 ? "cog active" : "cog"} style={{ "--i": 1 }}>{props.wheel === 1 ? 'B' : ''}</div>
+        <div className={props.wheel === 2 ? "cog active" : "cog"} style={{ "--i": 2 }}>{props.wheel === 2 ? 'B' : ''}</div>
+        <div className={props.wheel === 3 ? "cog active" : "cog"} style={{ "--i": 3 }}>{props.wheel === 3 ? 'B' : ''}</div>
+        <div className={props.wheel === 4 ? "cog active" : "cog"} style={{ "--i": 4 }}>{props.wheel === 4 ? 'B' : ''}</div>
+        <div className={props.wheel === 5 ? "cog active" : "cog"} style={{ "--i": 5 }}>{props.wheel === 5 ? 'B' : ''}</div>
       </div>
       <div id="keypad">
-        <button id="counterClockwiseBtn" >Counter clockwise</button>
-        <button onClick={() => handleClick()} id="clockwiseBtn">Clockwise</button>
+        <button onClick={(e) => handleClick(e)} id="counterClockwiseBtn" >Counter clockwise</button>
+        <button onClick={(e) => handleClick(e)} id="clockwiseBtn">Clockwise</button>
       </div>
     </div>
   )

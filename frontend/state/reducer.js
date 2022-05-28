@@ -7,7 +7,8 @@ function wheel(state = initialWheelState, action) {
   switch(action.type) {
     case type.MOVE_CLOCKWISE:
       return state + 1
-      
+    case type.MOVE_COUNTERCLOCKWISE:
+      return state - 1
     default:
     return state;
   }
