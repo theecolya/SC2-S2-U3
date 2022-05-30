@@ -47,6 +47,10 @@ const initialFormState = {
   newFalseAnswer: '',
 }
 function form(state = initialFormState, action) {
+  switch(action.type) {
+    case type.INPUT_CHANGE:
+      return action.payload
+  }
   return state
 }
 

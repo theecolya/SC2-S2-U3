@@ -1,11 +1,14 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import * as actionCreators from '../state/action-creators'
 
-export function Form(props) {
+function Form(props) {
+  const dispatch = useDispatch()
 
   const onChange = evt => {
-
+    dispatch({ type: 'INPUT_CHANGE', payload: {newQuestion: evt.target.form[0].value,
+    newTrueAnswer: evt.target.form[1].value,
+  newFalseAnswer: evt.target.form[2].value }})
   }
 
   const onSubmit = evt => {
