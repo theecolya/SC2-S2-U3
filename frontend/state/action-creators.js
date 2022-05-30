@@ -44,7 +44,8 @@ export function postAnswer(selectedAnswer) {
   return function (dispatch) {
     axios.post(urlPOSTans, selectedAnswer)
       .then((res) => {dispatch({ type: types.SET_SELECTED_ANSWER, payload: null });
-                   dispatch({ type: types.SET_INFO_MESSAGE, payload: res.data.message })})
+                   dispatch({ type: types.SET_INFO_MESSAGE, payload: res.data.message });
+                   dispatch(fetchQuiz())})
     // On successful POST:
     // - Dispatch an action to reset the selected answer state
     // - Dispatch an action to set the server message to state
