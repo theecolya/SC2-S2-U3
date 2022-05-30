@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
-import { fetchQuiz } from '../state/action-creators'
+import { connect, useDispatch } from 'react-redux'
+import { fetchQuiz, postAnswer } from '../state/action-creators'
 
 const aC = {
   fetchQuiz,
+  postAnswer
 }
 
 function Quiz(props) {
@@ -12,6 +13,17 @@ function Quiz(props) {
   
   useEffect(() => {
     dispatch(fetchQuiz());}, [])
+
+  function selectAnswer(e) {
+    dispatch({type: 'SET_SELECTED_ANSWER', payload: { quiz_id: props.quiz.quiz_id,
+    answer_id: e.target.id === "answers[0]" ? props.quiz.answers[0].answer_id : props.quiz.answers[1].answer_id}})
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    dispatch(postAnswer(props.selectedAnswer))
+
+  } 
   
   
   return (
@@ -25,20 +37,20 @@ function Quiz(props) {
             <div id="quizAnswers">
               <div className="answer selected">
                 {props.quiz.answers[0].text}
-                <button onClick={(e) => {console.log(e)}}>
-                  SELECTED
+                <button id="answers[0]" onClick={(e) => {selectAnswer(e)}}>
+                  { props.selectedAnswer && props.selectedAnswer.answer_id === props.quiz.answers[0].answer_id ? 'SELECTED' : 'Select' }
                 </button>
               </div>
 
               <div className="answer">
                 {props.quiz.answers[1].text}
-                <button>
-                  Select
+                <button id="answers[1]" onClick={(e) => {selectAnswer(e)}}>
+                { props.selectedAnswer && props.selectedAnswer.answer_id === props.quiz.answers[1].answer_id ? 'SELECTED' : 'Select' }
                 </button>
               </div>
             </div>
 
-            <button id="submitAnswerBtn">Submit answer</button>
+            <button onClick={e => handleSubmit(e)} id="submitAnswerBtn">Submit answer</button>
           </>
         ) : 'Loading next quiz...'
       }

@@ -2,7 +2,8 @@
 import * as types from './action-types'
 import axios from 'axios'
 
-const url = 'http://localhost:9000/api/quiz/next'
+const urlGET = 'http://localhost:9000/api/quiz/next'
+const urlPOSTans = 'http://localhost:9000/api/quiz/answer'
 
 export function moveClockwise() {
   return({ type: types.MOVE_CLOCKWISE })
@@ -12,7 +13,9 @@ export function moveCounterClockwise() {
   return({ type: types.MOVE_COUNTERCLOCKWISE })
 }
 
-export function selectAnswer() { }
+export function selectAnswer(target) {
+  return({ type: types.SET_SELECTED_ANSWER , payload: target})
+}
 
 export function setMessage() { }
 
@@ -30,15 +33,18 @@ export function fetchQuiz() {
     // First, dispatch an action to reset the quiz state (so the "Loading next quiz..." message can display)
     dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: null })
     // On successful GET:
-    axios.get(url)
+    axios.get(urlGET)
         .then((res) => {dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: res.data})})
         //dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: response.data })})
         .catch(err => console.log(err))
     // - Dispatch an action to send the obtained quiz to its state
   }
 }
-export function postAnswer() {
+export function postAnswer(selectedAnswer) {
   return function (dispatch) {
+    axios.post(urlPOSTans, selectedAnswer)
+      .then((res) => {dispatch({ type: types.SET_SELECTED_ANSWER, payload: null });
+                   dispatch({ type: types.SET_INFO_MESSAGE, payload: res.data.message })})
     // On successful POST:
     // - Dispatch an action to reset the selected answer state
     // - Dispatch an action to set the server message to state
