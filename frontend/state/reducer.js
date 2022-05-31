@@ -50,6 +50,8 @@ function form(state = initialFormState, action) {
   switch(action.type) {
     case type.INPUT_CHANGE:
       return action.payload
+    case type.RESET_FORM:
+      return initialFormState
   }
   return state
 }

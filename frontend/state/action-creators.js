@@ -4,6 +4,7 @@ import axios from 'axios'
 
 const urlGET = 'http://localhost:9000/api/quiz/next'
 const urlPOSTans = 'http://localhost:9000/api/quiz/answer'
+const urlPOSTquiz= 'http://localhost:9000/api/quiz/new'
 
 export function moveClockwise() {
   return({ type: types.MOVE_CLOCKWISE })
@@ -17,7 +18,9 @@ export function selectAnswer(target) {
   return({ type: types.SET_SELECTED_ANSWER , payload: target})
 }
 
-export function setMessage() { }
+export function setMessage(question) {
+  return({ type: types.SET_INFO_MESSAGE, payload: `Congrats: "${question}" is a great question!`})
+}
 
 export function setQuiz() {
   return({ type: types.SET_QUIZ_INTO_STATE })
@@ -27,7 +30,9 @@ export function inputChange(form) {
   return({ type: types.INPUT_CHANGE , payload: form})
 }
 
-export function resetForm() { }
+export function resetForm() {
+  return({ type: types.RESET_FORM })
+}
 
 // ❗ Async action creators
 export function fetchQuiz() {
@@ -54,8 +59,11 @@ export function postAnswer(selectedAnswer) {
     // - Dispatch the fetching of the next quiz
   }
 }
-export function postQuiz() {
+export function postQuiz(form) {
   return function (dispatch) {
+    axios.post(urlPOSTquiz, form)
+      .then((res) => {dispatch(setMessage(res.data.question)); dispatch({type: types.RESET_FORM})})
+      .catch(err => console.log(err))//
     // On successful POST:
     // - Dispatch the correct message to the the appropriate state
     // - Dispatch the resetting of the form
