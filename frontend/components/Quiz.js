@@ -10,10 +10,10 @@ const aC = {
 
 function Quiz(props) {
   const dispatch = useDispatch()
-
   
-  useEffect(() => {
-    dispatch(fetchQuiz());}, [])
+  useEffect(() => { 
+    dispatch(fetchQuiz()); 
+    return () => { props.quiz ? props.quiz : 'Loading next quiz' }}, [])
 
   function selectAnswer(e) {
     dispatch({type: 'SET_SELECTED_ANSWER', 
@@ -24,8 +24,7 @@ function Quiz(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(postAnswer(props.selectedAnswer))
-
+    dispatch(postAnswer(props.selectedAnswer));
   } 
   
   

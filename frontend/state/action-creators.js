@@ -15,7 +15,7 @@ export function moveCounterClockwise() {
 }
 
 export function selectAnswer(target) {
-  return({ type: types.SET_SELECTED_ANSWER , payload: target})
+  return({ type: types.SET_SELECTED_ANSWER, payload: target})
 }
 
 export function setMessage(question) {
@@ -42,7 +42,6 @@ export function fetchQuiz() {
     // On successful GET:
     axios.get(urlGET)
         .then((res) => {dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: res.data})})
-        //dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: response.data })})
         .catch(err => console.log(err))
     // - Dispatch an action to send the obtained quiz to its state
   }
