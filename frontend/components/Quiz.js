@@ -12,8 +12,8 @@ function Quiz(props) {
   const dispatch = useDispatch()
   
   useEffect(() => { 
-    dispatch(fetchQuiz()); 
-    return () => { props.quiz ? props.quiz : 'Loading next quiz' }}, [])
+    !props.quiz ? dispatch(fetchQuiz()) : console.log('waiting for answer submit')
+  }, [])
 
   function selectAnswer(e) {
     dispatch({type: 'SET_SELECTED_ANSWER', 
